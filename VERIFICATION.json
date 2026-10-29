@@ -1,0 +1,8 @@
+{
+  "production_build": "passed",
+  "postgres_tests": "3 passed, 0 failed",
+  "frontend_and_assets": "byte-for-byte identical to source",
+  "live_database": "not configured",
+  "historical_counts": "not migrated",
+  "source_commit": "bd99210f949d5eb256983c3f26e632bb829fc349"
+}
