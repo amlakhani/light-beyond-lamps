@@ -30,15 +30,15 @@ test('Postgres schema, six choices, retries, validation and daily isolation', as
     assert.equal((await (await handlers.GET()).json()).total, 0);
     for (const choice of choiceIds) assert.equal((await post(choice)).status, 200);
     const token = randomUUID();
-    await Promise.all(Array.from({ length: 20 }, () => post('family', token)));
-    const duplicate = await (await post('kind', token)).json();
+    await Promise.all(Array.from({ length: 20 }, () => post('bonds', token)));
+    const duplicate = await (await post('community', token)).json();
     assert.equal(duplicate.total, 7);
-    assert.equal(duplicate.recordedChoice, 'family');
-    assert.equal(duplicate.counts.family, 2);
+    assert.equal(duplicate.recordedChoice, 'bonds');
+    assert.equal(duplicate.counts.bonds, 2);
     await db.exec(schema); // A repeat setup must preserve existing counts.
     assert.equal((await store.summary('2026-10-29')).total, 7);
     assert.equal((await post('bad')).status, 400);
-    assert.equal((await post('family', 'zzzzzzzz-zzzz-4zzz-8zzz-zzzzzzzzzzzz')).status, 400);
+    assert.equal((await post('bonds', 'zzzzzzzz-zzzz-4zzz-8zzz-zzzzzzzzzzzz')).status, 400);
     assert.equal((await handlers.POST(request('{'))).status, 400);
     assert.equal((await handlers.POST(request('null'))).status, 400);
     assert.equal((await handlers.POST(request('x'.repeat(1025)))).status, 413);
@@ -46,7 +46,7 @@ test('Postgres schema, six choices, retries, validation and daily isolation', as
     assert.equal((await handlers.POST(request('{}', {origin:'https://other.example'}))).status, 403);
     instant = new Date('2026-10-30T04:00:00Z');
     assert.equal((await (await handlers.GET()).json()).total, 0);
-    assert.equal((await (await post('kind', token)).json()).total, 1);
+    assert.equal((await (await post('community', token)).json()).total, 1);
     assert.equal((await store.summary('2026-10-29')).total, 7);
   } finally { await db.close(); }
 });

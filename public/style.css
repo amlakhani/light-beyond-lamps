@@ -31,3 +31,5 @@ body{transition:background-color .6s}.screen.active{animation:none}.screen.activ
 .community .mandir{left:0;bottom:37px;width:100%;height:calc(100% - 45px);max-height:none;object-fit:contain;object-position:center bottom;filter:brightness(0) invert(1);mask-image:none;-webkit-mask-image:none;pointer-events:none}
 .community.joined .mandir{opacity:.28}
 @media(max-width:700px){.community .mandir{bottom:32px;height:calc(100% - 38px)}}
+
+.choice-description{display:block;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;font-weight:400;margin-top:7px;opacity:.8}.choice label{min-height:112px}@media(max-width:600px){.choice-description{font-size:12px}.choice label{padding:14px 12px;min-height:110px}.choice-name{font-size:17px}}

@@ -59,3 +59,13 @@ Use GitHub as the source of truth for this Vercel edition. Push edits to a branc
 ## Verification
 
 `npm test` exercises the actual PostgreSQL schema and store SQL using embedded PGlite, including six choices, concurrent duplicate requests, day rollover, repeat schema setup, invalid requests, and unavailable-database responses. It is not a live Neon connectivity test.
+
+## Living Rangoli display (2026)
+
+The public experience now uses the six exhibition-aligned promises. New counts are stored in `sankalps_v2`; the original `sankalps` table is untouched and is not relabeled. Run the additive schema migration once before publishing this version.
+
+The independent 1920×1080 display is `/display?key=DEVICE_KEY`. Generate a cryptographically random 32-byte key and store only its SHA-256 hex digest in server environment variable `DISPLAY_TOKEN_HASH`. The display route and `/api/display` both verify access server-side. Never commit the key or place the link on a public QR sign. Anyone holding the device link can access the display; rotate the environment hash and redeploy to revoke it. The page disables caching and referrer transmission.
+
+Xibo should load the private link as a webpage, retaining its query string and enabling JavaScript. No keyboard login or audio is required. The screen polls every three seconds, animates positive count changes, batches busy arrivals by category, and avoids replaying old arrivals after loading or reconnecting. Polling slows on connection errors; the last confirmed totals remain visible with a reconnection message. Midnight uses the server's America/New_York date. Decorative lamps are symbolic; the numeric totals are authoritative.
+
+Artwork is rendered from the exhibition's supplied Rangoli PDF. The seven medallions are decorative themes; the six statistics use the exact promise names.
