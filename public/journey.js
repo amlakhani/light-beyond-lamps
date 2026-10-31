@@ -27,7 +27,9 @@ window.LightJourney=(()=>{
  const rect=lamp('ceremony').getBoundingClientRect();const x=rect.left+rect.width*.5,y=rect.top+rect.height*.52;
  const from=source||{x:x-100,y:y+130};const spark=document.createElement('div');spark.className='journey-spark';spark.setAttribute('aria-hidden','true');document.body.appendChild(spark);
  await animate(spark,[{transform:`translate(${from.x}px,${from.y}px) scale(.4)`,opacity:0},{transform:`translate(${from.x}px,${from.y}px) scale(1)`,opacity:1,offset:.08},{transform:`translate(${x+65}px,${y+45}px) scale(1)`,opacity:1,offset:.65},{transform:`translate(${x}px,${y}px) scale(.4)`,opacity:1}],{duration:1100,easing:'cubic-bezier(.3,.55,.3,1)',fill:'forwards'});
- stage('ceremony').classList.add('lit');spark.remove();await wait(1350);
+ stage('ceremony').classList.add('lit');spark.remove();
+ // Let the 2.2-second final ripple finish, then hold the completed diya for 1.2 seconds.
+ await wait(3400);
  }
  function selection(id){if(reduced.matches)return;const input=document.getElementById(id),label=input?.nextElementSibling;if(!label)return;
  label.querySelector('.selection-ripple')?.remove();const ripple=document.createElement('span');ripple.className='selection-ripple';label.appendChild(ripple);setTimeout(()=>ripple.remove(),850);
