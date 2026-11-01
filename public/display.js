@@ -17,11 +17,20 @@ function resize(){const s=Math.min(innerWidth/1920,innerHeight/1080);$('stage').
 $('counts').innerHTML=items.map(([id,label,theme],i)=>`<article class="count-card" id="card-${id}"><div class="card-top"><span class="theme">${theme}</span><svg viewBox="-45 -45 90 90" aria-hidden="true">${icons[i]}</svg></div><h2>${label}</h2><strong id="count-${id}">—</strong><span class="count-unit">PROMISES</span></article>`).join('');
 const petal='M 0 -105 C -124 -153 -113 -257 0 -312 C 113 -257 124 -153 0 -105 Z';
 let petals='',ornament='';
-items.forEach(([id,label,theme],i)=>{const angle=i*60,rad=(angle-90)*Math.PI/180,x=400+Math.cos(rad)*223,y=400+Math.sin(rad)*223;
-petals+=`<g id="art-${id}" class="petal" data-x="${x-400}" data-y="${y-400}"><g transform="translate(400 400) rotate(${angle})"><path class="petal-fill" d="${petal}"/><path class="petal-inner" d="M0-124C-90-165-83-241 0-289C83-241 90-165 0-124Z"/><path class="trace" d="${petal}" pathLength="100" style="animation-delay:-${i*2}s"/><path class="stem" d="M0-105V-84"/><circle cy="-312" r="3"/></g><g class="theme-icon rangoli-artwork" transform="translate(${x} ${y}) scale(1)">${rangoliArtwork[i]}</g><text x="${x}" y="${y+65}">${theme}</text></g>`;
+items.forEach(([id,label,theme],i)=>{const angle=i*60,rad=(angle-90)*Math.PI/180,x=400+Math.cos(rad)*206.48054,y=400+Math.sin(rad)*206.48054;
+petals+=`<g id="art-${id}" class="petal" data-x="${x-400}" data-y="${y-400}"><g transform="translate(400 400) rotate(${angle})"><path class="petal-fill" d="${petal}"/><path class="petal-inner" d="M0-124C-90-165-83-241 0-289C83-241 90-165 0-124Z"/><path class="trace" d="${petal}" pathLength="100" style="animation-delay:-${i*2}s"/><path class="stem" d="M0-105V-84"/><circle cy="-312" r="3"/></g><g transform="translate(${x} ${y})"><g class="petal-content"><g class="theme-icon rangoli-artwork" transform="translate(0 -10)">${rangoliArtwork[i]}</g><text x="0" y="55">${theme}</text></g></g></g>`;
 });
 for(let i=0;i<60;i++){const a=i*6;ornament+=`<g transform="rotate(${a} 400 400)"><path d="M400 60V${i%5===0?46:54}"/>${i%5===0?'<path d="M400 29L404 35L400 41L396 35Z"/>':''}</g>`}
 $('lotus').innerHTML=`<svg viewBox="0 0 800 800" role="img" aria-label="Six-petalled living lotus: love, seva, family, community, mandir and purpose"><g class="outer-ring">${ornament}<circle cx="400" cy="400" r="338"/><circle cx="400" cy="400" r="346"/></g><g class="petals">${petals}</g><circle class="inner-ring" cx="400" cy="400" r="92"/><circle class="inner-ring dotted" cx="400" cy="400" r="99"/></svg>`;
+// Center the complete illustration-and-label bounds on each petal's area centroid.
+function centerPetalContents(){
+ document.querySelectorAll('.petal-content').forEach(content=>{
+  const b=content.getBBox();
+  content.setAttribute('transform',`translate(${-b.x-b.width/2} ${-b.y-b.height/2})`);
+ });
+}
+centerPetalContents();
+if(document.fonts)document.fonts.ready.then(centerPetalContents);
 for(let i=0;i<18;i++){const el=document.createElement('i');el.className='mote';el.style.cssText=`left:${8+(i*37)%84}%;top:${10+(i*19)%78}%;--duration:${15+i%7}s;animation-delay:-${i*1.7}s`;$('atmosphere').appendChild(el)}
 function countTo(el,to){const from=Number(el.dataset.value||0);el.dataset.value=to;if(reduced||from===to){el.textContent=to.toLocaleString();return}const t=performance.now();function frame(now){const p=Math.min(1,(now-t)/900);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3))).toLocaleString();if(p<1)requestAnimationFrame(frame)}requestAnimationFrame(frame)}
 function celebrate(){if(playing||!queue.length)return;playing=true;const event=queue.shift(),item=items.find(x=>x[0]===event.id),art=$('art-'+event.id),card=$('card-'+event.id);$('arrival-kicker').textContent=event.n===1?'A NEW LIGHT HAS JOINED':event.n+' NEW LIGHTS HAVE JOINED';$('arrival-text').textContent=item[1];$('arrival').classList.remove('arriving');void $('arrival').offsetWidth;$('arrival').classList.add('arriving');art.classList.add('lit');card.classList.add('active');$('rangoli').classList.add('receiving');const spark=document.createElement('i');spark.className='spark';spark.style.setProperty('--x',art.dataset.x+'px');spark.style.setProperty('--y',art.dataset.y+'px');$('rangoli').appendChild(spark);setTimeout(()=>{spark.remove();art.classList.remove('lit');card.classList.remove('active');$('rangoli').classList.remove('receiving');playing=false;celebrate()},3600)}
