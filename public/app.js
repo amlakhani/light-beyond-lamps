@@ -10,8 +10,8 @@ const choices=[
  {id:'values',label:'Live by Good Values',verb:'live by good values',description:'I will make time for prayer or reflection and put good values into practice.',icon:'<circle cx="17" cy="12" r="9"/><path d="M17 6v7h5M3 20l6 6h14l6-8M2 26l6 5h17M6 23l-3-6m6 9h9"/>'},
  {id:'purpose',label:'Live with Purpose',verb:'live with purpose',description:'I will make one positive change in my life that benefits others.',icon:'<path d="M16 27C7 21 8 13 16 4c8 9 9 17 0 23Zm0 0C4 28 1 20 2 13c7 0 11 5 14 14Zm0 0c12 1 15-7 14-14-7 0-11 5-14 14ZM6 30h20"/>'}
 ];
-const accents={kindness:'#9b5364',seva:'#ad6e2e',bonds:'#9a652c',community:'#a15d58',values:'#5c684b',purpose:'#735979'};
-function applyAccent(choice){const accent=accents[choice?.id]||'#995c3b';document.body.style.setProperty('--promise-accent',accent);ExhibitArt.setAccent(accent);document.querySelectorAll('.diya').forEach(el=>el.innerHTML=ExhibitArt.diya());}
+const accents={kindness:'#7b0a11',seva:'#c9913a',bonds:'#c9913a',community:'#800b12',values:'#4e070c',purpose:'#5d080e'};
+function applyAccent(choice){const accent=accents[choice?.id]||'#c9913a';document.body.style.setProperty('--promise-accent',accent);ExhibitArt.setAccent(accent);document.querySelectorAll('.diya').forEach(el=>el.innerHTML=ExhibitArt.diya());}
 let selected=null,submitted=false,saving=false,cardBlob=null,cardURL=null;
 try { selected=choices.find(c=>c.id===sessionStorage.getItem('lbl-sankalp-v3'))||null; } catch {}
 document.querySelectorAll('.mandala').forEach(el=>el.innerHTML=ExhibitArt.mandala());
@@ -27,7 +27,7 @@ $('join').addEventListener('click',async()=>{if(LightJourney.busy)return;if(!$('
 $('keepsake').addEventListener('click',()=>show('souvenir'));
 for(let i=0;i<14;i++){const p=document.createElement('span');p.className='particle';p.style.cssText=`left:${(i*37+11)%100}%;top:${(i*19+24)%100}%;animation-delay:${-i*.9}s;animation-duration:${10+i%5}s`;$('particles').appendChild(p);}
 function loadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error('Image unavailable'));img.src=src;});}
-const logoPromise=loadImage('baps-logo.png');logoPromise.catch(()=>{});
+const logoPromise=loadImage('/brand/diwali-maroon.svg');logoPromise.catch(()=>{});
 function escapeXML(s){return s.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));}
 function svgData(svg){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);}
 function lineWrap(ctx,txt,maxWidth){const lines=[];let line='';for(const word of txt.split(' ')){const next=line?line+' '+word:word;if(ctx.measureText(next).width>maxWidth&&line){lines.push(line);line=word;}else line=next;}if(line)lines.push(line);return lines;}
@@ -36,18 +36,18 @@ function prepareCard(){if(cardPromise)return cardPromise;cardPromise=renderCard(
 async function renderCard(){
 if(!selected)throw new Error('Please choose a Sankalp first.');
 const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Image export unavailable.');
-const logo=await logoPromise;if(document.fonts){await Promise.race([Promise.all([document.fonts.load('40px "Exhibit Serif"'),document.fonts.load('italic 48px "Exhibit Serif"')]),new Promise(resolve=>setTimeout(resolve,2000))]);}const bg=ctx.createLinearGradient(0,0,0,1350);bg.addColorStop(0,'#fffaf0');bg.addColorStop(1,'#f4e7cf');ctx.fillStyle=bg;ctx.fillRect(0,0,1080,1350);
-ctx.strokeStyle=accents[selected.id];ctx.lineWidth=2;ctx.strokeRect(35,35,1010,1280);ctx.lineWidth=1;ctx.strokeStyle='#ccb185';ctx.strokeRect(52,52,976,1246);
-const mandala=await loadImage(svgData(ExhibitArt.mandala().replace('aria-hidden="true"','style="color:#b48c50"')));ctx.globalAlpha=.22;ctx.drawImage(mandala,-185,-185,450,450);ctx.drawImage(mandala,815,1085,450,450);ctx.drawImage(mandala,245,600,590,590);ctx.globalAlpha=1;
+const logo=await logoPromise;if(document.fonts){await Promise.race([Promise.all([document.fonts.load('22px Jost'),document.fonts.load('40px "Cormorant Garamond"'),document.fonts.load('italic 48px "Cormorant Garamond"')]),new Promise(resolve=>setTimeout(resolve,2000))]);}const bg=ctx.createLinearGradient(0,0,0,1350);bg.addColorStop(0,'#ffffff');bg.addColorStop(1,'#f9f3ea');ctx.fillStyle=bg;ctx.fillRect(0,0,1080,1350);
+ctx.strokeStyle=accents[selected.id];ctx.lineWidth=2;ctx.strokeRect(35,35,1010,1280);ctx.lineWidth=1;ctx.strokeStyle='#c9913a';ctx.strokeRect(52,52,976,1246);
+const mandala=await loadImage(svgData(ExhibitArt.mandala().replace('aria-hidden="true"','style="color:#c9913a"')));ctx.globalAlpha=.22;ctx.drawImage(mandala,-185,-185,450,450);ctx.drawImage(mandala,815,1085,450,450);ctx.drawImage(mandala,245,600,590,590);ctx.globalAlpha=1;
 const scale=Math.min(165/logo.width,170/logo.height);ctx.globalCompositeOperation='multiply';ctx.drawImage(logo,540-logo.width*scale/2,82,logo.width*scale,logo.height*scale);ctx.globalCompositeOperation='source-over';
-ctx.textAlign='center';ctx.fillStyle='#52172c';ctx.font='27px "Exhibit Serif", Georgia';ctx.fillText('LIGHT BEYOND LAMPS',540,301);
-ctx.strokeStyle='#b88e50';ctx.beginPath();ctx.moveTo(427,337);ctx.lineTo(517,337);ctx.moveTo(563,337);ctx.lineTo(653,337);ctx.stroke();ctx.fillStyle='#a77530';ctx.beginPath();ctx.moveTo(540,327);ctx.lineTo(544,334);ctx.lineTo(551,337);ctx.lineTo(544,340);ctx.lineTo(540,347);ctx.lineTo(536,340);ctx.lineTo(529,337);ctx.lineTo(536,334);ctx.closePath();ctx.stroke();
-ctx.font='22px Arial';ctx.fillStyle='#8a5a28';ctx.fillText('M Y   D I W A L I   S A N K A L P',540,397);
-ctx.font='40px "Exhibit Serif", Georgia';ctx.fillStyle='#52172c';ctx.fillText('This Diwali, I choose to',540,474);
-ctx.font='italic 48px "Exhibit Serif", Georgia';ctx.fillStyle=accents[selected.id];const lines=lineWrap(ctx,selected.verb+'.',830);lines.forEach((line,i)=>ctx.fillText(line,540,536+i*59));
+ctx.textAlign='center';ctx.fillStyle='#3b060a';ctx.font='27px "Cormorant Garamond", Georgia';ctx.fillText('LIGHT BEYOND LAMPS',540,301);
+ctx.strokeStyle='#c9913a';ctx.beginPath();ctx.moveTo(427,337);ctx.lineTo(517,337);ctx.moveTo(563,337);ctx.lineTo(653,337);ctx.stroke();ctx.fillStyle='#c9913a';ctx.beginPath();ctx.moveTo(540,327);ctx.lineTo(544,334);ctx.lineTo(551,337);ctx.lineTo(544,340);ctx.lineTo(540,347);ctx.lineTo(536,340);ctx.lineTo(529,337);ctx.lineTo(536,334);ctx.closePath();ctx.stroke();
+ctx.font='22px Jost';ctx.fillStyle='#563a23';ctx.fillText('M Y   D I W A L I   S A N K A L P',540,397);
+ctx.font='40px "Cormorant Garamond", Georgia';ctx.fillStyle='#3b060a';ctx.fillText('This Diwali, I choose to',540,474);
+ctx.font='italic 48px "Cormorant Garamond", Georgia';ctx.fillStyle=accents[selected.id];const lines=lineWrap(ctx,selected.verb+'.',830);lines.forEach((line,i)=>ctx.fillText(line,540,536+i*59));
 const artwork=ExhibitArt.diya().replaceAll('class="flame-group"','opacity="1"');const lamp=await loadImage(svgData(artwork));ctx.drawImage(lamp,250,618,580,464);
-ctx.fillStyle='#52172c';ctx.font='43px "Exhibit Serif", Georgia';ctx.fillText('A small Sankalp.',540,1110);ctx.fillText('A brighter tomorrow.',540,1168);
-ctx.fillStyle='#8b6638';ctx.font='19px Arial';ctx.fillText('BRIGHTER PEOPLE · BRIGHTER COMMUNITIES',540,1245);
+ctx.fillStyle='#3b060a';ctx.font='43px "Cormorant Garamond", Georgia';ctx.fillText('A small Sankalp.',540,1110);ctx.fillText('A brighter tomorrow.',540,1168);
+ctx.fillStyle='#573b24';ctx.font='19px Jost';ctx.fillText('BRIGHTER PEOPLE · BRIGHTER COMMUNITIES',540,1245);
 cardBlob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Unable to generate image.')),'image/png'));return cardBlob;
 }
 $('save').addEventListener('click',async()=>{if(saving||!selected)return;saving=true;$('save').disabled=true;$('save-status').textContent='Preparing your keepsake…';try{const blob=cardBlob||await prepareCard();if(cardURL)URL.revokeObjectURL(cardURL);cardURL=URL.createObjectURL(blob);const a=document.createElement('a');a.href=cardURL;a.download='my-diwali-sankalp.png';document.body.appendChild(a);a.click();a.remove();$('save-status').textContent='Your card is ready. Check Downloads, or touch and hold the image below to save.';$('save-fallback').src=cardURL;$('save-fallback').hidden=false;$('save').classList.add('saved');$('save').innerHTML='<span aria-hidden="true">✓</span> DIYA READY TO SAVE';}catch(e){$('save-status').textContent='Your card could not be saved. Please tap Save My Diya to try again.';}finally{saving=false;$('save').disabled=false;}});
